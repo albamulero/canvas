@@ -1,23 +1,23 @@
-let $canvas= document.getElementById("lienzo")
+let $canvas = document.getElementById("lienzo")
 let ctx = $canvas.getContext("2d")
 let var1
 
 let numeros = []
 
-function lienzo(){
-    
+function lienzo() {
+
     // Creamos las lineas horizontales
 
-    for (x=0; x<=499; x=x+50){
-        ctx.moveTo(x,0);
-        ctx.lineTo(x,499);
+    for (x = 0; x <= 499; x = x + 50) {
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, 499);
     }
 
     // Creamos las lienas vertical
 
-    for (y=0; y<=499; y=y+50){
-        ctx.moveTo(0,y);
-        ctx.lineTo(499,y);
+    for (y = 0; y <= 499; y = y + 50) {
+        ctx.moveTo(0, y);
+        ctx.lineTo(499, y);
     }
 
     // Dibujamos las lineas
@@ -31,17 +31,17 @@ function lienzo(){
 
     // Rellenamos el cuadro con los numeros que tenemos en el array
     rellenar_cuadro()
-    
+
     // Ponemos a la escucha la grilla
 
-    $canvas.addEventListener("click", function(e){
+     $canvas.addEventListener("click", function(e) {
 
         let pos_x = 0
         let pos_y = 0
         let pos_xx = 50
         let pos_yy = 50
         let vueltas
- 
+
         // Este es un metodo para restar el margen del body y que solo me salga el valor de la grilla
 
         var canvaspos = $canvas.getBoundingClientRect();
@@ -50,48 +50,23 @@ function lienzo(){
 
         posicion_array = 0
 
+        // Vamos a recorrer el array buscando la poiscion que nos llega...
+        //alert(nclientX + " : " + nclientY)
 
-        // Comenzaos iterando las columnas...
-        for (vueltas = 0; vueltas <= 10; vueltas++){
+        for(n = 0; n <= 100; n++){
 
+            if (nclientX > numeros[n][2] && nclientX < numeros[n][4] && nclientY > numeros[n][1] && nclientY < numeros[n][3]){
+                
+                // Pasarmos el numero al validador del juego
+                regla_juego(numeros[n][0])
 
-
-            // Vamos a iterar cada filas...
-
-            for (vuelta_fila = 0; vuelta_fila <= 10; vuelta_fila++){
-
-                console.log("X " + nclientX + " Y : " + nclientY + " Buscando en X " +  pos_x + " XX : " + pos_xx + " Y : " + pos_y + " YY : " + pos_yy)
-                //console.log("nclientY" + nclientY)
-
-                if(nclientX > pos_x && nclientX < pos_xx && nclientY > pos_y && nclientY < pos_yy){
-
-                  alert("El numero es : " + numeros[posicion_array][0])
-                  console.log("Encontre...")
-                  
-
-            
-                }
-
-
-                pos_y = pos_y + 50
-                pos_yy = pos_yy +50
-                posicion_array++
 
             }
-
-            pos_x = pos_x + 50
-            pos_xx = pos_xx + 50
-
-            pos_y = 0
-            pos_yy = 50
-
         }
-
-
     })
 
 
-    function rellenar_cuadro(){
+    function rellenar_cuadro() {
 
         let valor_anadir_x = 50
         let vueltas = 10
@@ -101,52 +76,88 @@ function lienzo(){
 
         // Voy a recorrer las columnas
 
-        for(c=0; c<vueltas; c++){
-            //console.log("Esto es c:"+c)
+        for(n = 0; n < 100; n++){
 
-            // Relleno las filas....
-            for(n=0; n < vueltas; n++){
-                ctx.fillText(numeros[posicion_array_numero][0], valor_x, valor_y)
-
-                valor_x = valor_x + valor_anadir_x 
-                posicion_array_numero ++  
-
-                //console.log(numeros[0][4])
-            }
-
-           valor_x = 10
-
-           valor_y = valor_y + valor_anadir_x
+            ctx.fillText(numeros[n][0], numeros[n][2]+ 10, numeros[n][1] + 10)
 
         }
     }
 
-    function generador_numeros(){
+    function generador_numeros() {
 
         let pos_x = 0
         let pos_y = 0
-        let pos_xx = 50 
+        let pos_xx = 50
         let pos_yy = 50
 
-        for (n=1; n <=100; n++){
+        for (n = 0; n <= 100; n++) {
+
+
             //console.log(n)
-            let aleatorio = Math.round(Math.random()*1000);
+            let aleatorio = Math.round(Math.random() * 1000);
             //console.log(aleatorio);
             numeros.push([aleatorio, pos_x, pos_y, pos_xx, pos_yy])
-            //numeros[0].push(aleatorio)
+                //numeros[0].push(aleatorio)
+
             pos_x = pos_x + 50
-            pos_y += 50
-            pos_xx += 50
-            pos_yy += 50
+            pos_xx = pos_xx + 50
+
+            if(pos_x == 500){
+                pos_x = 0
+                pos_xx = 50
+                pos_y = pos_y + 50
+                pos_yy = pos_yy + 50
+            }
+                
+            console.log(numeros[n][0] + " : " + numeros[n][1] + " : "  + numeros[n][2])
 
         }
 
     }
 
 
-    function regla_juego(num){
-        
-    }
+    function regla_juego(num) {
 
+        numero_mas_bajo = true
+
+
+        // Vamos a comporbar que es el numero mas bajo del array...
+        // Recorremos el array y comprobamos que no encontremos ninguno mayor
+        for(n = 0; n < 100; n++){
+
+            console.log(numeros[n][0])
+
+            if( num > numeros[n][0]){
+                numero_mas_bajo = false
+
+            }
+
+        }
+
+        // Si es el numero mas bajo lo barramos del array...
+        // Pintamos encima del numero para taparlo....
+        // En caso contario informamos...
+        alert(numero_mas_bajo)
+        if(numero_mas_bajo==true){
+
+            // Pintamos ese espacio...
+             // Borramos el numero del array...
+            for(n = 0; n < 100; n++){
+                if(num == numeros[n][0]){
+
+                    ctx.fillStyle = "white"
+                    ctx.fillRect(numeros[n][2], numeros[n][1], 50, 50)
+                    numeros[n][0] = 1000000;
+
+                }
+            }
+
+
+
+        }else{ 
+            alert(num + ": no es el numeor mas bajo, sigue intentandolo...")
+        }
+    }
 }
+
 
