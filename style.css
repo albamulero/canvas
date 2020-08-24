@@ -3,18 +3,21 @@ html {
 }
 
 h1{
-    text-align: center;
+    padding: 15px 0px 15px 100px;
 }
 
-p{
-    text-align: center;
+
+div #timer{
+    padding-left: 14rem;
+    font-size: 2em;
 }
 
 .button{
     padding: 10px;
     background-color: #F8F8FF;
-    /*font-weight: bold;*/
     font-size: 15px;
-    margin-left:630px;
+    margin-left:170px;
 }
+
+
 

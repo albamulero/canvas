@@ -4,6 +4,12 @@ let var1
 
 let numeros = []
 
+/************************************
+ * La funcion lienzo, pinta el tablero del juego...
+ * Desde lienzo sellama a generador_numeros(), rellenar_cuadro()
+ **************************************/
+
+
 function lienzo() {
 
     // Creamos las lineas horizontales
@@ -19,11 +25,6 @@ function lienzo() {
         ctx.moveTo(0, y);
         ctx.lineTo(499, y);
     }
-
-    // Dibujamos las lineas
-
-    /*ctx.strokeStyle = "black";
-    ctx.stroke();*/
 
     // Creamos un bucle para generar los numeros y asignar su posicion en el tablero
 
@@ -56,7 +57,29 @@ function lienzo() {
 
             }
         }
+
+        
     })
+
+    // Aqui creamos elo timer
+
+    let segundos = 0
+    let seg_text = document.getElementById("timer")
+    let crono = setInterval(cronometro, 1000)
+
+    function cronometro(){
+
+        if(segundos==60){
+            clearInterval(crono)
+            alert("Se termino tu tiempo!!!!")
+           // document.getElementById("timer").innerHTML = tiempo.toLocaleTimeString()
+
+        }else{
+            seg_text.innerHTML = segundos
+            segundos++
+
+        }
+    }
 
 
     function rellenar_cuadro() {
